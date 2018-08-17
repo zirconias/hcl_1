@@ -33,8 +33,9 @@ public class ApplicationRunnerr implements ApplicationRunner {
 
         CompletableFuture<List<Book>> books = bookService.getdAll();
         CompletableFuture<List<Album>> albums = albumService.getdAll();
+        CompletableFuture<List<Album>> albumsWithTerm = albumService.getAlbums("hell");
 
-        CompletableFuture.allOf(books, albums).join();
+        CompletableFuture.allOf(books, albums, albumsWithTerm).join();
 
         log.info("size of books is {}",books.get().size());
         log.info("size of albums is {}",albums.get().size());

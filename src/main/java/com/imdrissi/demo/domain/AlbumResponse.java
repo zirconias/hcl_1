@@ -15,6 +15,5 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AlbumResponse {
   private String resultCount;
-
   private List<Album> results;
 }

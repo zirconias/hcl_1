@@ -21,17 +21,18 @@ import java.util.concurrent.CompletableFuture;
 public class AlbumAsyncService {
 
   private RestOperations restTemplate;
+  private String api_search_url = "http://itunes.apple.com/search?term=%s&entity=album&limit=%s";
 
   public AlbumAsyncService(@Qualifier("itunesRestTemplate") RestOperations restTemplate) {
     this.restTemplate = restTemplate;
   }
 
+  // todo: exceptionnaly raise error
+  // todo: safe check resttemplate response result
   @Async(AsyncConf.TASK_EXECUTOR_SERVICE)
   public CompletableFuture<List<Album>> getAlbums(String term, int resultLimit) {
-    log.info("getting albums for term {}", term);
-    String url =
-        String.format(
-            "http://itunes.apple.com/search?term=%s&entity=album&limit=%s", term, resultLimit);
+    log.info("getting albums for term {}, results limited to {}", term, resultLimit);
+    String url = String.format(api_search_url, term, resultLimit);
 
     HttpEntity<AlbumResponse> httpEntity = new HttpEntity<>(new AlbumResponse());
 
@@ -41,7 +42,7 @@ public class AlbumAsyncService {
                 url, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<AlbumResponse>() {})
             .getBody();
 
-    List<Album> albums = (List<Album>) AlbumResponse.getResults();
+    List<Album> albums = AlbumResponse.getResults();
 
     return CompletableFuture.supplyAsync(() -> new ArrayList<>(albums));
   }

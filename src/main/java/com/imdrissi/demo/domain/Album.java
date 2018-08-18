@@ -17,11 +17,8 @@ public class Album {
   @JsonProperty(value = "collectionName")
   private String title;
 
-  private Type type = Type.ALBUM;
-  private String artists; // todo: list of artists ?
+  @JsonProperty(value = "artistName")
+  private String artist;
 
-  public Album(String title, String artists) {
-    this.title = title;
-    this.artists = artists;
-  }
+  private Type type = Type.ALBUM;
 }

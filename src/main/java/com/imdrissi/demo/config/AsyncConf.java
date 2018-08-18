@@ -24,8 +24,10 @@ public class AsyncConf implements AsyncConfigurer {
   private static final String TASK_EXECUTOR_DEFAULT = "taskExecutor";
   private static final String TASK_EXECUTOR_NAME_PREFIX_DEFAULT = "taskExecutor-";
   private static final String TASK_EXECUTOR_NAME_PREFIX_SERVICE = "serviceTaskExecutor-";
+  private static final String TASK_EXECUTOR_NAME_PREFIX_CONTROLLER = "controllerTaskExecutor";
 
   public static final String TASK_EXECUTOR_SERVICE = "serviceTaskExecutor";
+  public static final String TASK_EXECUTOR_CONTROLLER = "controllerTaskExecutor";
 
   @Override
   @Bean(name = TASK_EXECUTOR_DEFAULT)
@@ -41,6 +43,11 @@ public class AsyncConf implements AsyncConfigurer {
   @Bean(name = TASK_EXECUTOR_SERVICE)
   public Executor getServiceAsyncExecutor() {
     return newTaskExecutor(TASK_EXECUTOR_NAME_PREFIX_SERVICE);
+  }
+
+  @Bean(name = TASK_EXECUTOR_CONTROLLER)
+  public Executor getControllerAsyncExecutor() {
+    return newTaskExecutor(TASK_EXECUTOR_NAME_PREFIX_CONTROLLER);
   }
 
   private Executor newTaskExecutor(String taskExecutorNamePrefixDefault) {

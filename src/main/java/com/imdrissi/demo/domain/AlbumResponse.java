@@ -10,7 +10,7 @@ import java.util.List;
 @Setter
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class response {
+public class AlbumResponse {
   private String resultCount;
 
   private List<Album> results;

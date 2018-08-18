@@ -3,6 +3,7 @@ package com.imdrissi.demo.controllers;
 import com.imdrissi.demo.config.AsyncConf;
 import com.imdrissi.demo.services.AlbumAsyncService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,16 +22,19 @@ import java.util.function.Function;
 public class AlbumController {
 
   private final AlbumAsyncService albumService;
+  private final int search_limit;
 
-  public AlbumController(AlbumAsyncService albumService) {
+  public AlbumController(
+      AlbumAsyncService albumService, @Value("${service.album.search.limit}") int search_limit) {
     this.albumService = albumService;
+    this.search_limit = search_limit;
   }
 
   @Async(AsyncConf.TASK_EXECUTOR_CONTROLLER)
   @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
   public CompletableFuture<ResponseEntity> getAlbumsByTerm(@RequestParam String term) {
     return albumService
-        .getAlbums(term, 5)
+        .getAlbums(term, search_limit)
         .<ResponseEntity>thenApply(ResponseEntity::ok)
         .exceptionally(handleGetAlbumsException);
   }

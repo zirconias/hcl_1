@@ -30,19 +30,19 @@ public class AlbumAsyncService {
   // todo: exceptionnaly raise error
   // todo: safe check resttemplate response result
   @Async(AsyncConf.TASK_EXECUTOR_SERVICE)
-  public CompletableFuture<List<Album>> getAlbums(String term, int resultLimit) {
+  public CompletableFuture<List<Album>> getAlbumsByTerm(String term, int resultLimit) {
     log.info("getting albums for term {}, results limited to {}", term, resultLimit);
     String url = String.format(api_search_url, term, resultLimit);
 
     HttpEntity<AlbumResponse> httpEntity = new HttpEntity<>(new AlbumResponse());
 
-    AlbumResponse AlbumResponse =
+    AlbumResponse albumResponse =
         restTemplate
             .exchange(
                 url, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<AlbumResponse>() {})
             .getBody();
 
-    List<Album> albums = AlbumResponse.getResults();
+    List<Album> albums = albumResponse.getResults();
 
     return CompletableFuture.supplyAsync(() -> new ArrayList<>(albums));
   }

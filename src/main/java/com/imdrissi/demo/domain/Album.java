@@ -18,7 +18,7 @@ public class Album {
   private String title;
 
   @JsonProperty(value = "artistName")
-  private String artist;
+  private String artists;
 
   private Type type = Type.ALBUM;
 }

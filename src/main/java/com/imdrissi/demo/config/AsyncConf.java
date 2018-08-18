@@ -1,5 +1,6 @@
 package com.imdrissi.demo.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.aop.interceptor.SimpleAsyncUncaughtExceptionHandler;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +14,7 @@ import java.util.concurrent.Executor;
 
 @Configuration
 @EnableAsync
+@Slf4j
 public class AsyncConf implements AsyncConfigurer {
 
   @Value("${async.pool-size}")

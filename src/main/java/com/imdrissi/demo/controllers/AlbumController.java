@@ -1,7 +1,10 @@
 package com.imdrissi.demo.controllers;
 
 import com.imdrissi.demo.config.AsyncConf;
+import com.imdrissi.demo.domain.Album;
 import com.imdrissi.demo.services.AlbumAsyncService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -16,6 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
+@Api(
+    basePath = "/api/albums",
+    value = "Album",
+    description = "Album api",
+    produces = "application/json")
 @RestController
 @RequestMapping(value = "/api/albums")
 @Slf4j
@@ -30,11 +38,15 @@ public class AlbumController {
     this.search_limit = search_limit;
   }
 
+  @ApiOperation(
+      value = "view list of albums related to given term",
+      response = Album.class,
+      responseContainer = "List")
   @Async(AsyncConf.TASK_EXECUTOR_CONTROLLER)
   @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
   public CompletableFuture<ResponseEntity> getAlbumsByTerm(@RequestParam String term) {
     return albumService
-        .getAlbums(term, search_limit)
+        .getAlbumsByTerm(term, search_limit)
         .<ResponseEntity>thenApply(ResponseEntity::ok)
         .exceptionally(handleGetAlbumsException);
   }

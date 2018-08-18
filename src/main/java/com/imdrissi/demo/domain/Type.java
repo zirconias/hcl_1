@@ -8,9 +8,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public enum Type {
-    ALBUM("album"),
-    BOOK("book");
+  ALBUM("album"),
+  BOOK("book");
 
-    private final String value;
+  private final String value;
 }
-

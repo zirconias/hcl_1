@@ -27,11 +27,13 @@ public class AlbumAsyncService {
   }
 
   @Async(AsyncConf.TASK_EXECUTOR_SERVICE)
-  public CompletableFuture<List<Album>> getAlbums(String term) {
+  public CompletableFuture<List<Album>> getAlbums(String term, int resultLimit) {
     log.info("getting albums for term {}", term);
-    String url = String.format("http://itunes.apple.com/search?term=%s&entity=album&limit=5", term);
+    String url =
+        String.format(
+            "http://itunes.apple.com/search?term=%s&entity=album&limit=%s", term, resultLimit);
 
-    HttpEntity<AlbumResponse> httpEntity = new HttpEntity<AlbumResponse>(new AlbumResponse());
+    HttpEntity<AlbumResponse> httpEntity = new HttpEntity<>(new AlbumResponse());
 
     AlbumResponse AlbumResponse =
         restTemplate

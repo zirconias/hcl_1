@@ -1,6 +1,5 @@
 package com.imdrissi.demo.services;
 
-
 import com.imdrissi.demo.config.AsyncConf;
 import com.imdrissi.demo.domain.Book;
 import lombok.extern.slf4j.Slf4j;
@@ -16,10 +15,10 @@ import java.util.concurrent.CompletableFuture;
 @Slf4j
 public class BookAsyncService {
 
-    @Async(AsyncConf.TASK_EXECUTOR_SERVICE)
-    public CompletableFuture<List<Book>> getdAll() {
-        List<Book> result = Arrays.asList(new Book("effective java", "joshua bloch"));
+  @Async(AsyncConf.TASK_EXECUTOR_SERVICE)
+  public CompletableFuture<List<Book>> getdAll() {
+    List<Book> result = Arrays.asList(new Book("effective java", "joshua bloch"));
 
-        return CompletableFuture.supplyAsync(() -> new ArrayList<>(result));
-    }
+    return CompletableFuture.supplyAsync(() -> new ArrayList<>(result));
+  }
 }

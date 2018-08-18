@@ -11,12 +11,12 @@ import lombok.ToString;
 @ToString
 public class Book {
 
-    private String title;
-    private Type type = Type.BOOK;
-    private String authors;//todo: list of authors
+  private String title;
+  private Type type = Type.BOOK;
+  private String authors; // todo: list of authors
 
-    public Book(String title, String authors) {
-        this.title = title;
-        this.authors = authors;
-    }
+  public Book(String title, String authors) {
+    this.title = title;
+    this.authors = authors;
+  }
 }

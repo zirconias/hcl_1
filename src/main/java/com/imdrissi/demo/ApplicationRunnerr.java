@@ -28,7 +28,7 @@ public class ApplicationRunnerr implements ApplicationRunner {
   public void run(ApplicationArguments args) throws Exception {
 
     CompletableFuture<List<Book>> books = bookService.getdAll();
-    CompletableFuture<List<Album>> albumsWithTerm = albumService.getAlbums("hell");
+    CompletableFuture<List<Album>> albumsWithTerm = albumService.getAlbums("hell", 2);
 
     CompletableFuture.allOf(books, albumsWithTerm).join();
 

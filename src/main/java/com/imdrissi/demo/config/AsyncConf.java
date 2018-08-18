@@ -15,46 +15,42 @@ import java.util.concurrent.Executor;
 @EnableAsync
 public class AsyncConf implements AsyncConfigurer {
 
-    @Value("${async.pool-size}")
-    private int poolSize;
+  @Value("${async.pool-size}")
+  private int poolSize;
 
-    @Value("${async.max-pool-size}")
-    private int maxPoolSize;
+  @Value("${async.max-pool-size}")
+  private int maxPoolSize;
 
+  private static final String TASK_EXECUTOR_DEFAULT = "taskExecutor";
+  private static final String TASK_EXECUTOR_NAME_PREFIX_DEFAULT = "taskExecutor-";
+  private static final String TASK_EXECUTOR_NAME_PREFIX_SERVICE = "serviceTaskExecutor-";
 
-    private static final String TASK_EXECUTOR_DEFAULT = "taskExecutor";
-    private static final String TASK_EXECUTOR_NAME_PREFIX_DEFAULT = "taskExecutor-";
-    private static final String TASK_EXECUTOR_NAME_PREFIX_SERVICE = "serviceTaskExecutor-";
+  public static final String TASK_EXECUTOR_SERVICE = "serviceTaskExecutor";
 
-    public static final String TASK_EXECUTOR_SERVICE = "serviceTaskExecutor";
+  @Override
+  @Bean(name = TASK_EXECUTOR_DEFAULT)
+  public Executor getAsyncExecutor() {
+    return newTaskExecutor(TASK_EXECUTOR_NAME_PREFIX_DEFAULT);
+  }
 
+  @Override
+  public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
+    return new SimpleAsyncUncaughtExceptionHandler();
+  }
 
-    @Override
-    @Bean(name = TASK_EXECUTOR_DEFAULT)
-    public Executor getAsyncExecutor() {
-        return newTaskExecutor(TASK_EXECUTOR_NAME_PREFIX_DEFAULT);
-    }
+  @Bean(name = TASK_EXECUTOR_SERVICE)
+  public Executor getServiceAsyncExecutor() {
+    return newTaskExecutor(TASK_EXECUTOR_NAME_PREFIX_SERVICE);
+  }
 
-    @Override
-    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-        return new SimpleAsyncUncaughtExceptionHandler();
-    }
+  private Executor newTaskExecutor(String taskExecutorNamePrefixDefault) {
 
-    @Bean(name = TASK_EXECUTOR_SERVICE)
-    public Executor getServiceAsyncExecutor() {
-        return newTaskExecutor(TASK_EXECUTOR_NAME_PREFIX_SERVICE);
-    }
+    final ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 
-    private Executor newTaskExecutor(String taskExecutorNamePrefixDefault) {
+    executor.setCorePoolSize(poolSize);
+    executor.setMaxPoolSize(maxPoolSize);
+    executor.setThreadNamePrefix(taskExecutorNamePrefixDefault);
 
-        final ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-
-        executor.setCorePoolSize(poolSize);
-        executor.setMaxPoolSize(maxPoolSize);
-        executor.setThreadNamePrefix(taskExecutorNamePrefixDefault);
-
-        return executor;
-    }
-
-
+    return executor;
+  }
 }

@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class SearchService {
 
-    AlbumAsyncService albumAsyncService;
-    BookAsyncService bookAsyncService;
+  AlbumAsyncService albumAsyncService;
+  BookAsyncService bookAsyncService;
 
-    public SearchService(AlbumAsyncService albumAsyncService, BookAsyncService bookAsyncService) {
-        this.albumAsyncService = albumAsyncService;
-        this.bookAsyncService = bookAsyncService;
-    }
+  public SearchService(AlbumAsyncService albumAsyncService, BookAsyncService bookAsyncService) {
+    this.albumAsyncService = albumAsyncService;
+    this.bookAsyncService = bookAsyncService;
+  }
 }

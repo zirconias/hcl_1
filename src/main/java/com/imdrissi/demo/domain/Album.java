@@ -14,13 +14,14 @@ import lombok.ToString;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Album {
 
-    @JsonProperty(value = "collectionName")
-    private String title;
-    private Type type = Type.ALBUM;
-    private String artists;//todo: list of artists ?
+  @JsonProperty(value = "collectionName")
+  private String title;
 
-    public Album(String title, String artists) {
-        this.title = title;
-        this.artists = artists;
-    }
+  private Type type = Type.ALBUM;
+  private String artists; // todo: list of artists ?
+
+  public Album(String title, String artists) {
+    this.title = title;
+    this.artists = artists;
+  }
 }

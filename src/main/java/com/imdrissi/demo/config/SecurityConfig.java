@@ -16,6 +16,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   public void configure(final HttpSecurity http) throws Exception {
     http.httpBasic().and().csrf().disable();
 
+    http.requiresChannel()
+        .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
+        .requiresSecure();
+
     http.authorizeRequests().antMatchers(HttpMethod.GET, "/actuator/**").permitAll();
     http.authorizeRequests()
         .antMatchers(

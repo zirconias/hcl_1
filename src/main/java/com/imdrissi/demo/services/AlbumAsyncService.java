@@ -3,6 +3,7 @@ package com.imdrissi.demo.services;
 import com.imdrissi.demo.config.AsyncConf;
 import com.imdrissi.demo.domain.Album;
 import com.imdrissi.demo.domain.AlbumResponse;
+import io.micrometer.core.annotation.Timed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
@@ -29,8 +30,7 @@ public class AlbumAsyncService {
     this.restTemplate = restTemplate;
   }
 
-  // todo: exceptionnaly raise error
-  // todo: safe check resttemplate response result
+  @Timed(value = "service.api.album.search", description = "measure itunes search api")
   @Async(AsyncConf.TASK_EXECUTOR_SERVICE)
   public CompletableFuture<List<Album>> getAlbumsByTerm(String term, int resultLimit) {
     log.info("getting albums for term {}, results limited to {}", term, resultLimit);

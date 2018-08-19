@@ -3,6 +3,7 @@ package com.imdrissi.demo.services;
 import com.imdrissi.demo.config.AsyncConf;
 import com.imdrissi.demo.domain.Album;
 import com.imdrissi.demo.domain.Book;
+import io.micrometer.core.annotation.Timed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class SearchService {
     this.bookAsyncService = bookAsyncService;
   }
 
+  @Timed(value = "service.api.search", description = "measure hcl search api")
   @Async(AsyncConf.TASK_EXECUTOR_SERVICE)
   public CompletableFuture<List<?>> search(String term, int resultLimit) {
     log.info("searching for term {}...", term);
@@ -44,6 +46,7 @@ public class SearchService {
             .thenApply(
                 ignore -> Stream.of(cfs).map(CompletableFuture::join).collect(Collectors.toList()));
 
+    // to return one list of items
     List listOfAll = new ArrayList();
     cf.join().forEach(e -> listOfAll.addAll((Collection) e));
     return CompletableFuture.completedFuture(listOfAll);

@@ -3,6 +3,7 @@ package com.imdrissi.demo.services;
 import com.imdrissi.demo.config.AsyncConf;
 import com.imdrissi.demo.domain.Book;
 import com.imdrissi.demo.domain.BookResponse;
+import io.micrometer.core.annotation.Timed;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -28,11 +29,11 @@ public class BookAsyncService {
     this.restTemplate = restTemplate;
   }
 
+  @Timed(value = "service.api.book.search", description = "measure google book api search")
   @Async(AsyncConf.TASK_EXECUTOR_SERVICE)
   public CompletableFuture<List<Book>> getBooksByTerm(String term, int resultLimit) {
     log.info("getting books for term {}, results limited to {}", term, resultLimit);
     String url = String.format(api_search_url, term, resultLimit);
-
     HttpEntity<BookResponse> httpEntity = new HttpEntity<>(new BookResponse());
 
     BookResponse bookResponse =

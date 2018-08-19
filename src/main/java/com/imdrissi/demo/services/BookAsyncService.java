@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestOperations;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -39,7 +41,12 @@ public class BookAsyncService {
                 url, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<BookResponse>() {})
             .getBody();
 
-    List<Book> albums = bookResponse.getResults();
+    List<Book> albums =
+        bookResponse
+            .getResults()
+            .stream()
+            .sorted(Comparator.comparing(Book::getTitle))
+            .collect(Collectors.toList());
 
     return CompletableFuture.supplyAsync(() -> new ArrayList<>(albums));
   }

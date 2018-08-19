@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -43,13 +45,23 @@ public class SearchService {
     //                  return al;
     //                })
     //            .join();
-
+    log.info("returned {} items", allOf.join().size());
     return allOf;
   }
 
   static CompletableFuture<List<?>> allOf(CompletableFuture<?>... cfs) {
-    return CompletableFuture.allOf(cfs)
-        .thenApply(
-            ignore -> Stream.of(cfs).map(CompletableFuture::join).collect(Collectors.toList()));
+    CompletableFuture<List<?>> cf =
+        CompletableFuture.allOf(cfs)
+            .thenApply(
+                ignore -> Stream.of(cfs).map(CompletableFuture::join).collect(Collectors.toList()));
+
+    List listOfAll = new ArrayList();
+    cf.join().forEach(e -> listOfAll.addAll((Collection) e));
+    return CompletableFuture.completedFuture(listOfAll);
+
+    //    return CompletableFuture.allOf(cfs)
+    //        .thenApply(
+    //            ignore ->
+    // Stream.of(cfs).map(CompletableFuture::join).collect(Collectors.toList()));
   }
 }

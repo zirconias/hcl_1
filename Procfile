@@ -1,0 +1,1 @@
+web: java -Dserver.port=$PORT $JAVA_OPTS -jar ${full-artifact-name} --spring.profiles.active=test

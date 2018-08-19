@@ -34,17 +34,6 @@ public class SearchService {
 
     CompletableFuture<List<?>> allOf = allOf(books, albums);
 
-    //    List al = new ArrayList();
-    //    List<?> result =
-    //        books
-    //            .thenCombine(
-    //                albums,
-    //                (l1, l2) -> {
-    //                  al.addAll(l2);
-    //                  al.addAll(l1);
-    //                  return al;
-    //                })
-    //            .join();
     log.info("returned {} items", allOf.join().size());
     return allOf;
   }
@@ -58,10 +47,5 @@ public class SearchService {
     List listOfAll = new ArrayList();
     cf.join().forEach(e -> listOfAll.addAll((Collection) e));
     return CompletableFuture.completedFuture(listOfAll);
-
-    //    return CompletableFuture.allOf(cfs)
-    //        .thenApply(
-    //            ignore ->
-    // Stream.of(cfs).map(CompletableFuture::join).collect(Collectors.toList()));
   }
 }

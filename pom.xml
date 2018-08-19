@@ -119,7 +119,7 @@
             <plugin>
                 <groupId>com.heroku.sdk</groupId>
                 <artifactId>heroku-maven-plugin</artifactId>
-                <version>1.1.1</version>
+                <version>2.0.5</version>
                 <configuration>
                     <appName>hclzir</appName>
                     <includeTarget>false</includeTarget>
@@ -129,8 +129,7 @@
                     <jdkVersion>1.8</jdkVersion>
                     <processTypes>
                         <!--<web>java $JAVA_OPTS -jar ${full-artifact-name}</web>-->
-                        <web>java $JAVA_OPTS -jar ${full-artifact-name} -Dserver.port=$PORT
-                            --spring.profiles.active=test
+                        <web>java $JAVA_OPTS -jar ${full-artifact-name} -Dserver.port=$PORT --spring.profiles.active=test
                         </web>
                     </processTypes>
                 </configuration>

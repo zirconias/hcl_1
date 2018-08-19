@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.imdrissi</groupId>
-    <artifactId>demo</artifactId>
+    <artifactId>hcl</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -121,7 +121,7 @@
                 <artifactId>heroku-maven-plugin</artifactId>
                 <version>1.1.1</version>
                 <configuration>
-                    <appName>hcl_1</appName>
+                    <appName>hclzir</appName>
                     <includeTarget>false</includeTarget>
                     <includes>
                         <include>${basedir}/${full-artifact-name}</include>

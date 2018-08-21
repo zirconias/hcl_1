@@ -13,7 +13,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestOperations;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -38,19 +37,23 @@ public class AlbumAsyncService {
 
     HttpEntity<AlbumResponse> httpEntity = new HttpEntity<>(new AlbumResponse());
 
+    return CompletableFuture.supplyAsync(
+        () -> {
+          List<Album> albums = getAlbums(url, httpEntity);
+          return albums;
+        });
+  }
+
+  private List<Album> getAlbums(String url, HttpEntity<AlbumResponse> httpEntity) {
     AlbumResponse albumResponse =
         restTemplate
             .exchange(
                 url, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<AlbumResponse>() {})
             .getBody();
-
-    List<Album> albums =
-        albumResponse
-            .getResults()
-            .stream()
-            .sorted(Comparator.comparing(Album::getTitle))
-            .collect(Collectors.toList());
-
-    return CompletableFuture.supplyAsync(() -> new ArrayList<>(albums));
+    return albumResponse
+        .getResults()
+        .stream()
+        .sorted(Comparator.comparing(Album::getTitle))
+        .collect(Collectors.toList());
   }
 }

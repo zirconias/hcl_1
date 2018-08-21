@@ -50,6 +50,6 @@ public class SearchController {
   private static Function<Throwable, ResponseEntity> handleSearchException =
       throwable -> {
         log.error("Unable to search..", throwable);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
       };
 }

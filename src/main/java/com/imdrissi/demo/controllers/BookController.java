@@ -54,6 +54,6 @@ public class BookController {
   private static Function<Throwable, ResponseEntity> handleGetBooksException =
       throwable -> {
         log.error("Unable to retrieve books", throwable);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
       };
 }

@@ -54,6 +54,6 @@ public class AlbumController {
   private static Function<Throwable, ResponseEntity> handleGetAlbumsException =
       throwable -> {
         log.error("Unable to retrieve albums", throwable);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
       };
 }
